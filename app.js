@@ -1,5 +1,6 @@
 // Model: data produk berupa array statis (tanpa database)
 //js product data
+//const product
 const produk = [
   {
     id: 1,
