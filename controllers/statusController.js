@@ -1,4 +1,4 @@
-// Controller: status server
+// Controller: untuk update status server
 exports.getStatus = (req, res) => {
   res.json({
     status: 'ok',
