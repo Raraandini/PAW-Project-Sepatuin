@@ -127,6 +127,7 @@ app.use((req, res) => {
   res.status(404).render('404', { title: 'Halaman tidak ditemukan' });
 });
 
+//bagian listen, yg mana nanti bisa di akses web di local host:3000
 app.listen(3000, () => {
   console.log(`Server berjalan di http://localhost:3000`);
 });
