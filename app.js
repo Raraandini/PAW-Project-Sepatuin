@@ -110,6 +110,7 @@ app.get('/api/status', (req, res) => {
   fs.writeFileSync('./middlewares/logStatus.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Status response: ${res.statusCode}"\n`, { flag: 'a' });
 });
 
+// Endpoint untuk menampilkan data produk
 app.get('/api/produk', (req, res) => {
   res.json(produk);
   console.log(produk); // buat didalam console
