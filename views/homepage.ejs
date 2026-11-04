@@ -1,0 +1,56 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+
+<main>
+  <section class="hero py-5">
+    <div class="container">
+      <h1 class="fw-bold">Langkah nyaman, gaya maksimal dengan Sepatuin</h1>
+      <p class="lead col-lg-8">Temukan sepatu yang sesuai kebutuhanmu. Tanya stok, ukuran, atau cara membeli kapan saja lewat asisten AI di pojok kanan bawah.</p>
+      <a href="#koleksi" class="btn btn-primary">Lihat koleksi</a>
+    </div>
+  </section>
+
+  <section class="container py-5">
+    <h2 class="h4 mb-4">Kenapa memilih Sepatuin?</h2>
+    <div class="row g-3">
+      <div class="col-md-6 col-lg-3"><div class="border rounded p-3 h-100"><div class="fs-3">🤖</div><h3 class="h6">AI Chatbot 24/7</h3><p class="small mb-0">Chatbot GPT menjawab pertanyaan stok, ukuran, dan panduan belanja.</p></div></div>
+      <div class="col-md-6 col-lg-3"><div class="border rounded p-3 h-100"><div class="fs-3">🚚</div><h3 class="h6">Gratis ongkos kirim</h3><p class="small mb-0">Tanpa minimum pembelian ke seluruh Indonesia.</p></div></div>
+      <div class="col-md-6 col-lg-3"><div class="border rounded p-3 h-100"><div class="fs-3">🛡️</div><h3 class="h6">Kualitas original</h3><p class="small mb-0">Semua produk melalui quality control yang ketat.</p></div></div>
+      <div class="col-md-6 col-lg-3"><div class="border rounded p-3 h-100"><div class="fs-3">🔄</div><h3 class="h6">Tukar ukuran 7 hari</h3><p class="small mb-0">Ukuran tidak pas? Tukar dengan proses mudah.</p></div></div>
+    </div>
+  </section>
+
+  <section id="koleksi" class="container pb-5">
+    <h2 class="h4 mb-1">Koleksi terpopuler</h2>
+    <p class="text-muted">Data produk di bawah ini dikirim dari backend (Model → Controller → EJS).</p>
+
+    <% if (produk.length === 0) { %>
+      <p>Belum ada produk.</p>
+    <% } else { %>
+    <div class="row g-4">
+      <% produk.forEach(function (p) { %>
+      <div class="col-sm-6 col-lg-4">
+        <div class="card h-100">
+          <% if (p.gambar) { %>
+            <img src="<%= p.gambar %>" class="card-img-top produk-img" alt="<%= p.nama %>">
+          <% } else { %>
+            <div class="produk-placeholder" aria-hidden="true">👟</div>
+          <% } %>
+          <div class="card-body">
+            <% if (p.label) { %><span class="badge text-bg-primary mb-2"><%= p.label %></span><% } %>
+            <h3 class="h5 card-title"><%= p.nama %></h3>
+            <p class="mb-1 fw-semibold"><%= formatRupiah(p.harga) %></p>
+            <p class="small text-muted mb-0">Kategori: <%= p.kategori %> · Ukuran: <%= p.ukuran.join(', ') %> · Stok: <%= p.stok %></p>
+          </div>
+          <div class="card-footer bg-white border-0 pb-3">
+            <button type="button" class="btn btn-outline-primary w-100">Tambah ke keranjang</button>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <% } %>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

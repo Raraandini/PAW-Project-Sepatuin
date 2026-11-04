@@ -1,0 +1,14 @@
+{
+  "name": "sepatuin",
+  "version": "1.0.0",
+  "description": "Sepatuin - Toko sepatu online dengan AI Chatbot (PAW Week 7, Kelompok 4 Kelas C)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

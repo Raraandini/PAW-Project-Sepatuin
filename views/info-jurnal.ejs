@@ -1,0 +1,34 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+
+<main class="container py-5">
+  <h1 class="h3 mb-4">Implementasi Custom Chatbot GPT dengan Chatbase pada Website E-Commerce Sepatu</h1>
+
+  <section class="mb-5">
+    <h2 class="h5">Ringkasan jurnal</h2>
+    <table class="table table-sm">
+      <tbody>
+        <tr><th scope="row" style="width: 12rem;">Penulis</th><td>M. Alfin, Albert Ramadhan Manik, Muhammad Budi Akbar, Ririn Amelia Br Siregar, Adidtya Perdana</td></tr>
+        <tr><th scope="row">Asal instansi</th><td>Ilmu Komputer, Universitas Negeri Medan</td></tr>
+        <tr><th scope="row">Terbit</th><td>Agustus 2025, JATI Vol. 9 No. 4</td></tr>
+      </tbody>
+    </table>
+    <p>Jurnal ini membahas chatbot custom berbasis GPT melalui Chatbase pada website e-commerce sepatu Sepatuin. Chatbot menjawab pertanyaan produk, stok, harga, dan proses pembelian, lalu diuji dengan Black Box Testing.</p>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="h5">Anggota kelompok</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead><tr><th>Nama</th><th>NIM</th></tr></thead>
+        <tbody>
+          <% anggota.forEach(function (a) { %>
+          <tr><td><%= a.nama %></td><td><%= a.nim %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
