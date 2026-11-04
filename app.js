@@ -101,6 +101,7 @@ function logApiStatus(){
 
 }
 
+//Buat status konfirmasi aktif
 app.get('/api/status', (req, res) => {
   console.log('Status endpoint diakses');
   res.json({ status: 'ok', message: 'Server Sepatuin berjalan' }); // buat didalam console
