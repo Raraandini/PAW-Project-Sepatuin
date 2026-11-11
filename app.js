@@ -124,7 +124,7 @@ app.get('/api/produk', async (req, res) => {
   fs.writeFileSync('./middlewares/logProduk.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Produk response: ${res.statusCode}"\n`, { flag: 'a' });
 })
 
-app.get('/api/produk:id', async (req, res) => {
+app.get('/api/produk/:id', async (req, res) => {
   const data = await produkDB.getById(req.params.id) // ambil dari db
   res.json(data) // kiirm
 
