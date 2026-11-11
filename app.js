@@ -129,6 +129,24 @@ app.get('/api/produk:id', async (req, res) => {
   res.json(data) // kiirm
 })
 
+// POST -> Menambahkan data baru ke dalam database.
+app.post('/api/produk', async (req, res) => {
+  const result = await produkDB.create(req.body);
+  res.json({ message: 'Berhasil dibuat', id: result.insertId });      
+});
+  
+// PUT -> Memperbarui data berdasarkan ID.
+app.put('/api/produk/:id', async (req, res) => {
+  await produkDB.update(req.params.id, req.body);
+  res.json({ message: 'Berhasil diupdate' });
+}); 
+
+// DELETE -> Menghapus data berdasarkan ID.
+app.delete('/api/produk/:id', async (req, res) => {
+  await produkDB.deleteProduk(req.params.id); 
+  res.json({ message: 'Berhasil dihapus' });
+});
+
 // 404 handler
 app.use((req, res) => {
   if (req.originalUrl.startsWith('/api')) {

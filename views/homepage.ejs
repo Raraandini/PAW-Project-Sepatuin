@@ -2,24 +2,194 @@
 <%- include('partials/navbar') %>
 
 <main>
+
+  <!-- HERO -->
   <section class="hero py-5">
     <div class="container">
       <h1 class="fw-bold">Langkah nyaman, gaya maksimal dengan Sepatuin</h1>
-      <p class="lead col-lg-8">Temukan sepatu yang sesuai kebutuhanmu. Tanya stok, ukuran, atau cara membeli kapan saja lewat asisten AI di pojok kanan bawah.</p>
+      <p class="lead col-lg-8">
+        Temukan sepatu yang sesuai kebutuhanmu. Tanya stok, ukuran, atau cara membeli
+        kapan saja lewat asisten AI di pojok kanan bawah.
+      </p>
       <a href="#koleksi" class="btn btn-primary">Lihat koleksi</a>
     </div>
   </section>
 
+  <!-- KEUNGGULAN -->
   <section class="container py-5">
     <h2 class="h4 mb-4">Kenapa memilih Sepatuin?</h2>
+
     <div class="row g-3">
-      <div class="col-md-6 col-lg-3"><div class="border rounded p-3 h-100"><div class="fs-3">🤖</div><h3 class="h6">AI Chatbot 24/7</h3><p class="small mb-0">Chatbot GPT menjawab pertanyaan stok, ukuran, dan panduan belanja.</p></div></div>
-      <div class="col-md-6 col-lg-3"><div class="border rounded p-3 h-100"><div class="fs-3">🚚</div><h3 class="h6">Gratis ongkos kirim</h3><p class="small mb-0">Tanpa minimum pembelian ke seluruh Indonesia.</p></div></div>
-      <div class="col-md-6 col-lg-3"><div class="border rounded p-3 h-100"><div class="fs-3">🛡️</div><h3 class="h6">Kualitas original</h3><p class="small mb-0">Semua produk melalui quality control yang ketat.</p></div></div>
-      <div class="col-md-6 col-lg-3"><div class="border rounded p-3 h-100"><div class="fs-3">🔄</div><h3 class="h6">Tukar ukuran 7 hari</h3><p class="small mb-0">Ukuran tidak pas? Tukar dengan proses mudah.</p></div></div>
+      <div class="col-md-6 col-lg-3">
+        <div class="border rounded p-3 h-100">
+          <h3 class="h6">AI Chatbot 24/7</h3>
+          <p class="small mb-0">Chatbot GPT menjawab pertanyaan stok, ukuran, dan panduan belanja.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="border rounded p-3 h-100">
+          <h3 class="h6">Gratis ongkos kirim</h3>
+          <p class="small mb-0">Tanpa minimum pembelian ke seluruh Indonesia.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="border rounded p-3 h-100">
+          <h3 class="h6">Kualitas original</h3>
+          <p class="small mb-0">Semua produk melalui quality control yang ketat.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="border rounded p-3 h-100">
+          <h3 class="h6">Tukar ukuran 7 hari</h3>
+          <p class="small mb-0">Ukuran tidak pas? Tukar dengan proses mudah.</p>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- MANAJEMEN PRODUK -->
+  <section class="container pb-5" id="manajemen-produk">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Manajemen Produk</h2>
+        <p class="text-muted mb-0">Kelola seluruh produk Sepatuin.</p>
+      </div>
+
+      <button type="button" class="btn btn-primary btn-tambah">
+        Tambah Produk
+      </button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>No</th>
+                <th>Nama Produk</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Ukuran</th>
+                <th>Stok</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% if (produk.length === 0) { %>
+                <tr>
+                  <td colspan="7" class="text-center py-4">Belum ada produk.</td>
+                </tr>
+              <% } else { %>
+                <% produk.forEach(function (p, index) { %>
+                  <tr>
+                    <td><%= index + 1 %></td>
+                    <td class="fw-semibold"><%= p.nama %></td>
+                    <td><%= p.kategori %></td>
+                    <td><%= formatRupiah(p.harga) %></td>
+                    <td><%= Array.isArray(p.ukuran) ? p.ukuran.join(', ') : (p.ukuran || '-') %></td>
+                    <td><%= p.stok %></td>
+                    <td>
+                      <div class="d-flex gap-2">
+                        <button
+                          type="button"
+                          class="btn btn-warning btn-sm btn-edit"
+                          data-id="<%= p.id ?? p._id %>"
+                          data-nama="<%= p.nama %>"
+                          data-harga="<%= p.harga %>"
+                          data-kategori="<%= p.kategori %>"
+                          data-ukuran="<%= Array.isArray(p.ukuran) ? p.ukuran.join(', ') : (p.ukuran || '') %>"
+                          data-stok="<%= p.stok %>"
+                          data-gambar="<%= p.gambar || '' %>"
+                          data-label="<%= p.label || '' %>">
+                          Edit
+                        </button>
+
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm btn-hapus"
+                          data-id="<%= p.id ?? p._id %>">
+                          Hapus
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- MODAL TAMBAH / EDIT -->
+  <div class="modal fade" id="modalProduk" tabindex="-1" aria-labelledby="judulModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="judulModal">Tambah Produk</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+
+        <form id="formProduk">
+          <div class="modal-body">
+
+            <div class="mb-3">
+              <label class="form-label">Nama Produk</label>
+              <input type="text" name="nama" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Kategori</label>
+              <input type="text" name="kategori" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Harga</label>
+              <input type="number" name="harga" class="form-control" min="0" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Ukuran</label>
+              <input type="text" name="ukuran" class="form-control" placeholder="39, 40, 41, 42" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Stok</label>
+              <input type="number" name="stok" class="form-control" min="0" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">URL Gambar</label>
+              <input type="url" name="gambar" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Label</label>
+              <input type="text" name="label" class="form-control">
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- KOLEKSI -->
   <section id="koleksi" class="container pb-5">
     <h2 class="h4 mb-1">Koleksi terpopuler</h2>
     <p class="text-muted">Data produk di bawah ini dikirim dari backend (Model → Controller → EJS).</p>
@@ -27,30 +197,174 @@
     <% if (produk.length === 0) { %>
       <p>Belum ada produk.</p>
     <% } else { %>
-    <div class="row g-4">
-      <% produk.forEach(function (p) { %>
-      <div class="col-sm-6 col-lg-4">
-        <div class="card h-100">
-          <% if (p.gambar) { %>
-            <img src="<%= p.gambar %>" class="card-img-top produk-img" alt="<%= p.nama %>">
-          <% } else { %>
-            <div class="produk-placeholder" aria-hidden="true">👟</div>
-          <% } %>
-          <div class="card-body">
-            <% if (p.label) { %><span class="badge text-bg-primary mb-2"><%= p.label %></span><% } %>
-            <h3 class="h5 card-title"><%= p.nama %></h3>
-            <p class="mb-1 fw-semibold"><%= formatRupiah(p.harga) %></p>
-            <p class="small text-muted mb-0">Kategori: <%= p.kategori %> · Ukuran: <%= p.ukuran.join(', ') %> · Stok: <%= p.stok %></p>
+      <div class="row g-4">
+        <% produk.forEach(function (p) { %>
+          <div class="col-sm-6 col-lg-4">
+            <div class="card h-100">
+
+              <% if (p.gambar) { %>
+                <img src="<%= p.gambar %>" class="card-img-top produk-img" alt="<%= p.nama %>">
+              <% } else { %>
+                <div class="produk-placeholder d-flex align-items-center justify-content-center text-muted" aria-hidden="true">
+                  Tanpa gambar
+                </div>
+              <% } %>
+
+              <div class="card-body">
+                <% if (p.label) { %>
+                  <span class="badge text-bg-primary mb-2"><%= p.label %></span>
+                <% } %>
+
+                <h3 class="h5 card-title"><%= p.nama %></h3>
+                <p class="mb-1 fw-semibold"><%= formatRupiah(p.harga) %></p>
+                <p class="small text-muted mb-0">
+                  Kategori: <%= p.kategori %> ·
+                  Ukuran: <%= Array.isArray(p.ukuran) ? p.ukuran.join(', ') : (p.ukuran || '-') %> ·
+                  Stok: <%= p.stok %>
+                </p>
+              </div>
+
+              <div class="card-footer bg-white border-0 pb-3">
+                <button type="button" class="btn btn-outline-primary w-100">Tambah ke keranjang</button>
+              </div>
+
+            </div>
           </div>
-          <div class="card-footer bg-white border-0 pb-3">
-            <button type="button" class="btn btn-outline-primary w-100">Tambah ke keranjang</button>
-          </div>
-        </div>
+        <% }); %>
       </div>
-      <% }); %>
-    </div>
     <% } %>
   </section>
+
 </main>
+
+<script>
+  (function () {
+    const API = '/api/produk';
+
+    const modalEl = document.getElementById('modalProduk');
+    const formProduk = document.getElementById('formProduk');
+    const judulModal = document.getElementById('judulModal');
+    const btnSimpan = document.getElementById('btnSimpan');
+
+    let produkEditId = null;
+
+    // Buka modal lewat JavaScript
+    function bukaModal() {
+      bootstrap.Modal.getOrCreateInstance(modalEl).show();
+    }
+
+    // Form tambah
+    function formTambah() {
+      produkEditId = null;
+      formProduk.reset();
+      judulModal.textContent = 'Tambah Produk';
+      bukaModal();
+    }
+
+    // Form edit: isi form dari data-* tombol
+    function formEdit(btn) {
+      produkEditId = btn.dataset.id;
+      judulModal.textContent = 'Edit Produk';
+
+      const f = formProduk.elements;
+      f.nama.value = btn.dataset.nama;
+      f.kategori.value = btn.dataset.kategori;
+      f.harga.value = btn.dataset.harga;
+      f.ukuran.value = btn.dataset.ukuran;
+      f.stok.value = btn.dataset.stok;
+      f.gambar.value = btn.dataset.gambar;
+      f.label.value = btn.dataset.label;
+
+      bukaModal();
+    }
+
+    // Simpan (POST) atau update (PUT)
+    async function kirimProduk(e) {
+      e.preventDefault();
+
+      const data = Object.fromEntries(new FormData(formProduk).entries());
+
+      data.harga = Number(data.harga);
+      data.stok = Number(data.stok);
+      data.ukuran = data.ukuran
+        .split(',')
+        .map(item => item.trim())
+        .filter(Boolean);
+
+      const isEdit = Boolean(produkEditId);
+      const url = isEdit ? `${API}/${encodeURIComponent(produkEditId)}` : API;
+      const method = isEdit ? 'PUT' : 'POST';
+
+      btnSimpan.disabled = true;
+      btnSimpan.textContent = 'Menyimpan...';
+
+      try {
+        const response = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const hasil = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(hasil.message || 'Gagal menyimpan produk');
+        }
+
+        alert(isEdit ? 'Produk berhasil diperbarui!' : 'Produk berhasil ditambahkan!');
+        location.reload();
+
+      } catch (error) {
+        alert(error.message);
+        btnSimpan.disabled = false;
+        btnSimpan.textContent = 'Simpan';
+      }
+    }
+
+    // Hapus produk
+    async function hapusProduk(id) {
+      if (!confirm('Apakah kamu yakin ingin menghapus produk ini?')) return;
+
+      try {
+        const response = await fetch(`${API}/${encodeURIComponent(id)}`, {
+          method: 'DELETE'
+        });
+
+        const hasil = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(hasil.message || 'Gagal menghapus produk');
+        }
+
+        alert('Produk berhasil dihapus!');
+        location.reload();
+
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    // Event delegation: satu listener untuk semua tombol
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.btn-tambah')) {
+        formTambah();
+        return;
+      }
+
+      const btnEdit = e.target.closest('.btn-edit');
+      if (btnEdit) {
+        formEdit(btnEdit);
+        return;
+      }
+
+      const btnHapus = e.target.closest('.btn-hapus');
+      if (btnHapus) {
+        hapusProduk(btnHapus.dataset.id);
+      }
+    });
+
+    formProduk.addEventListener('submit', kirimProduk);
+  })();
+</script>
 
 <%- include('partials/footer') %>

@@ -2,3 +2,5 @@
 [2026-11-04T10:56:13.902Z] GET /api/produk "Produk response: 304"
 [2026-11-04T10:57:53.303Z] GET /api/produk "Produk response: 304"
 [2026-11-04T11:00:28.133Z] GET /api/produk "Produk response: 304"
+[2026-11-11T12:37:51.864Z] GET /api/produk "Produk response: 200"
+[2026-11-11T13:10:28.526Z] GET /api/produk "Produk response: 304"
