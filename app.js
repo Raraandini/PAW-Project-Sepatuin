@@ -73,6 +73,7 @@ const config = require('./config/config');
 const logger = require('./middlewares/logger');
 const apiRoutes = require('./routes/apiRoutes');
 const webRoutes = require('./routes/webRoutes');
+const CRUD = require('./models/CRUD_db')
 
 const fs = require('fs');
 
@@ -96,11 +97,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', apiRoutes);
 app.use('/', webRoutes);
 
-
-function logApiStatus(){
-
-}
-
 //Buat status konfirmasi aktif
 app.get('/api/status', (req, res) => {
   console.log('Status endpoint diakses');
@@ -118,6 +114,20 @@ app.get('/api/produk', (req, res) => {
   //log masuk
   fs.writeFileSync('./middlewares/logProduk.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Produk response: ${res.statusCode}"\n`, { flag: 'a' });
 });
+
+// Update endpoint pake database
+app.get('/api/produk', async (req, res) => {
+  const data = await produkDB.getAll() // ambil dari db
+  res.json(data) //kirim
+
+  // masukin log
+  fs.writeFileSync('./middlewares/logProduk.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Produk response: ${res.statusCode}"\n`, { flag: 'a' });
+})
+
+app.get('/api/produk:id', async (req, res) => {
+  const data = await produkDB.getById(req.params.id) // ambil dari db
+  res.json(data) // kiirm
+})
 
 // 404 handler
 app.use((req, res) => {
