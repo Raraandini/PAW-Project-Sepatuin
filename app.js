@@ -73,7 +73,7 @@ const config = require('./config/config');
 const logger = require('./middlewares/logger');
 const apiRoutes = require('./routes/apiRoutes');
 const webRoutes = require('./routes/webRoutes');
-const CRUD = require('./models/CRUD_db')
+const produkDB = require('./models/CRUD_db')
 
 const fs = require('fs');
 
