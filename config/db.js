@@ -1,5 +1,6 @@
 // config/db.js
-require('dotenv').config(); //nge load env ounya masing2
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const mysql = require('mysql2/promise');
 
 // Buat koneksi pool ke database MySQL/MariaDB
