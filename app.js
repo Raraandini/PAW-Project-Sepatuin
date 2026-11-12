@@ -5,6 +5,10 @@ const config = require('./config/config');
 const logger = require('./middlewares/logger');
 const apiRoutes = require('./routes/apiRoutes');
 const webRoutes = require('./routes/webRoutes');
+const produkDB = require('./models/CRUD_db')
+
+const fs = require('fs');
+
 
 const app = express();
 
@@ -24,8 +28,49 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Semua endpoint API ada di routes/apiRoutes.js
 app.use('/api', apiRoutes);
 
-// Halaman web
-app.use('/', webRoutes);
+// Update endpoint pake database
+app.get('/api/produk', async (req, res) => {
+  const data = await produkDB.getAll() // ambil dari db
+  res.json(data) //kirim
+
+  // masukin log
+  fs.writeFileSync('./middlewares/logProduk.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Produk response: ${res.statusCode}"\n`, { flag: 'a' });
+})
+
+app.get('/api/produk/:id', async (req, res) => {
+  const data = await produkDB.getById(req.params.id) // ambil dari db
+  res.json(data) // kiirm
+
+  // masukin log
+  fs.writeFileSync('./middlewares/logProdukId.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Produk response: ${res.statusCode}"\n`, { flag: 'a' });
+})
+
+// POST -> Menambahkan data baru ke dalam database.
+app.post('/api/produk', async (req, res) => {
+  const result = await produkDB.create(req.body);
+  res.json({ message: 'Berhasil dibuat', id: result.insertId });
+  
+  // masukin log
+  fs.writeFileSync('./middlewares/logProdukPost.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Produk response: ${res.statusCode}"\n`, { flag: 'a' });
+});
+  
+// PUT -> Memperbarui data berdasarkan ID.
+app.put('/api/produk/:id', async (req, res) => {
+  await produkDB.update(req.params.id, req.body);
+  res.json({ message: 'Berhasil diupdate' });
+
+  // masukin log
+  fs.writeFileSync('./middlewares/logProdukPut.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Produk response: ${res.statusCode}"\n`, { flag: 'a' });
+}); 
+
+// DELETE -> Menghapus data berdasarkan ID.
+app.delete('/api/produk/:id', async (req, res) => {
+  await produkDB.deleteProduk(req.params.id); 
+  res.json({ message: 'Berhasil dihapus' });
+
+  // masukin log
+  fs.writeFileSync('./middlewares/logProdukDeleteID.txt', `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} "Produk response: ${res.statusCode}"\n`, { flag: 'a' });
+});
 
 // 404 handler
 app.use((req, res) => {
