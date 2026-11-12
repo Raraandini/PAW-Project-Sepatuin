@@ -1,4 +1,4 @@
-// Model: data produk berupa array statis (tanpa database)
+// Model: data produk berupa array (tanpa database, sementara)
 const produk = [
   {
     id: 1,
@@ -63,8 +63,67 @@ const produk = [
   },
 ];
 
-module.exports = {
-  getAll: () => produk,
-  getById: (id) => produk.find((p) => p.id === Number(id)),
-  getKategori: () => [...new Set(produk.map((p) => p.kategori))],
-};
+// Ubah ukuran jadi array angka. Terima array atau string "39,40,41"
+function parseUkuran(ukuran) {
+  if (Array.isArray(ukuran)) return ukuran.map(Number);
+  if (typeof ukuran === 'string' && ukuran.trim() !== '') {
+    return ukuran.split(',').map((u) => Number(u.trim()));
+  }
+  return [];
+}
+
+// Ambil semua produk
+function getAll() {
+  return produk;
+}
+
+// Ambil satu produk berdasarkan id. Return undefined kalau tidak ketemu
+function getById(id) {
+  return produk.find((p) => p.id === Number(id));
+}
+
+// Ambil daftar kategori unik
+function getKategori() {
+  return [...new Set(produk.map((p) => p.kategori))];
+}
+
+// Tambah produk baru
+function create(data) {
+  const newId = produk.length ? Math.max(...produk.map((p) => p.id)) + 1 : 1;
+  const item = {
+    id: newId,
+    nama: data.nama,
+    kategori: data.kategori,
+    harga: Number(data.harga) || 0,
+    ukuran: parseUkuran(data.ukuran),
+    stok: Number(data.stok) || 0,
+    label: data.label || null,
+    gambar: data.gambar || '',
+  };
+  produk.push(item);
+  return item;
+}
+
+// Update produk berdasarkan id. Return null kalau tidak ketemu
+function update(id, data) {
+  const index = produk.findIndex((p) => p.id === Number(id));
+  if (index === -1) return null;
+
+  const updated = { ...produk[index], ...data, id: produk[index].id };
+  if (data.harga !== undefined) updated.harga = Number(data.harga);
+  if (data.stok !== undefined) updated.stok = Number(data.stok);
+  if (data.ukuran !== undefined) updated.ukuran = parseUkuran(data.ukuran);
+
+  produk[index] = updated;
+  return updated;
+}
+
+// Hapus produk berdasarkan id. Return false kalau tidak ketemu
+function remove(id) {
+  const index = produk.findIndex((p) => p.id === Number(id));
+  if (index === -1) return false;
+  produk.splice(index, 1);
+  return true;
+}
+
+module.exports = { getAll, getById, getKategori, create, update, remove };
